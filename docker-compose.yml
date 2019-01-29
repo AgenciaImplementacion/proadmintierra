@@ -1,0 +1,31 @@
+version: '3.2'
+services:
+    # database:
+    #   image: bitnami/mariadb:10.2
+    #   ports:
+    #     - 3307:3306
+    #   environment:
+    #     MARIADB_ROOT_PASSWORD: "$MARIADB_ROOT_PASSWORD"
+    #     MARIADB_DATABASE: "$MARIADB_DATABASE"
+    #     MARIADB_USER: "$MARIADB_USER"
+    #     MARIADB_PASSWORD: "$MARIADB_PASSWORD"
+    #     # this credentials are changed, don't loose your time, create .env file
+    #   volumes:
+    #     - ./persistence-mariadb:/bitnami
+    wordpress:
+      image: wordpress:5.0.3
+      restart: always
+      volumes:
+        - ./wp-content:/var/www/html/wp-content
+      environment:
+        WORDPRESS_DB_HOST: database:3306
+        MARIADB_ROOT_PASSWORD: "$MARIADB_ROOT_PASSWORD"
+        MARIADB_DATABASE: "$MARIADB_DATABASE"
+        MARIADB_USER: "$MARIADB_USER"
+        MARIADB_PASSWORD: "$MARIADB_PASSWORD"
+      ports:
+        - 80:9000
+      # depends_on:
+      #   - database
+      external_links:
+        - database
